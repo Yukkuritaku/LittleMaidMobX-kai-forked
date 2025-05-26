@@ -8,7 +8,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
 import littleMaidMobX.network.Message;
-import littleMaidMobX.network.Network;
+import littleMaidMobX.network.NetworkHandler;
 import mmmlibx.lib.guns.GunsBase;
 import mmmlibx.lib.rewrite.RewritedFileManager;
 import net.minecraft.entity.Entity;
@@ -168,6 +168,6 @@ public class MMMLib {
 
 	public static void sendToClient(EntityPlayer player, byte[] ldata)
 	{
-		Network.sendPacketToPlayer(1, player, ldata);
+		NetworkHandler.sendPacketToPlayer(1, player, ldata);
 	}
 }

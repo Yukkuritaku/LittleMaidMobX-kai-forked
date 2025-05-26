@@ -20,7 +20,7 @@ import littleMaidMobX.entity.modes.EntityModeManager;
 import littleMaidMobX.entity.modes.IFF;
 import littleMaidMobX.item.ItemDismissalNotice;
 import littleMaidMobX.item.ItemSpawnEgg;
-import littleMaidMobX.network.Network;
+import littleMaidMobX.network.NetworkHandler;
 import littleMaidMobX.network.ProxyCommon;
 import mmmlibx.lib.MMM_Helper;
 import mmmlibx.lib.MMM_TextureManager;
@@ -120,7 +120,7 @@ public class LittleMaidMobX {
         EntityModeManager.init();
 
         // アイテムスロット更新用のパケット
-        Network.init();
+        NetworkHandler.init();
 
         // TODO ★ サウンドのロードを早くするテスト
         proxy.loadSounds();

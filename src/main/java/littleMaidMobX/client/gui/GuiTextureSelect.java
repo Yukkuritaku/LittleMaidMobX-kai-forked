@@ -1,7 +1,8 @@
 package littleMaidMobX.client.gui;
 
+import littleMaidMobX.network.NetworkHandler;
+import littleMaidMobX.network.packet.server.DecreaseDyePacket;
 import littleMaidMobX.util.Statics;
-import littleMaidMobX.network.Net;
 import mmmlibx.lib.ITextureEntity;
 import mmmlibx.lib.MMM_GuiTextureSelect;
 import mmmlibx.lib.MMM_TextureManager;
@@ -28,10 +29,7 @@ public class GuiTextureSelect extends MMM_GuiTextureSelect {
                     // 色情報の設定
 //					theMaid.maidColor = selectPanel.color | 0x010000 | (selectColor << 8);
                     // サーバーへ染料の使用を通知
-                    byte[] data = new byte[2];
-                    data[0] = Statics.LMN_Server_DecDyePowder;
-                    data[1] = (byte) selectColor;
-                    Net.sendToServer(data);
+                    NetworkHandler.sendToServer(new DecreaseDyePacket(this.selectColor));
                 }
             }
         }

@@ -45,6 +45,7 @@ minecraft {
         jvmArgs = ['-Dfml.coreMods.load=littleMaidMobX.tweaker.LittleMaidMobXLoadingPlugin']
     }
 
+    accessTransformer(file("src/main/resources/META-INF/lmmx_at.cfg"))
 }
 
 sourceSets.main {
@@ -85,6 +86,7 @@ jar {
 		attributes 'FMLCorePlugin': 'littleMaidMobX.tweaker.LittleMaidMobXLoadingPlugin'
 		attributes 'FMLCorePluginContainsFMLMod': true
         attributes 'ForceLoadAsMod': true
+        attributes 'FMLAT': 'lmmx_at.cfg'
 	}
     from outRefMapFile
 }

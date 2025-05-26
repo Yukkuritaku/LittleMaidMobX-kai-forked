@@ -15,7 +15,10 @@ import littleMaidMobX.entity.ai.EntityAISwimming;
 import littleMaidMobX.entity.ai.EntityAIWander;
 import littleMaidMobX.entity.modes.*;
 import littleMaidMobX.inventory.InventoryLittleMaid;
-import littleMaidMobX.network.Net;
+import littleMaidMobX.network.NetworkHandler;
+import littleMaidMobX.network.packet.client.PlayLittleMaidSoundPacket;
+import littleMaidMobX.network.packet.client.SwingArmPacket;
+import littleMaidMobX.network.packet.server.UpdateLittleMaidSlotPacket;
 import littleMaidMobX.util.Statics;
 import mmmlibx.lib.*;
 import mmmlibx.lib.multiModel.model.mc162.EquippedStabilizer;
@@ -645,7 +648,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
      */
     public void playSound(EnumSound enumsound, boolean force) {
         if ((maidSoundInterval > 0 && !force) || enumsound == EnumSound.Null) return;
-        maidSoundInterval = 20;
+        maidSoundInterval = LittleMaidConfig.voiceSoundInterval;
         if (worldObj.isRemote) {
             // Client
 //			String lsound = LMM_SoundManager.getSoundValue(enumsound, textureName, maidColor & 0x00ff);
@@ -654,13 +657,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
         } else {
             // Server
             LittleMaidMobX.debug("id:%d-%s, seps:%04x-%s", getEntityId(), worldObj.isRemote ? "Client" : "Server", enumsound.index, enumsound.name());
-            byte[] lbuf = new byte[]{
-                    Statics.LMN_Client_PlaySound,
-                    0, 0, 0, 0,
-                    0, 0, 0, 0
-            };
-            MMM_Helper.setInt(lbuf, 5, enumsound.index);
-            Net.sendToAllEClient(this, lbuf);
+            NetworkHandler.sendPacketToAllTracking(new PlayLittleMaidSoundPacket(this, enumsound), this);
         }
     }
 
@@ -671,7 +668,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
     public void playLittleMaidSound(EnumSound enumsound, boolean force) {
         // 音声の再生
         if ((maidSoundInterval > 0 && !force) || enumsound == EnumSound.Null) return;
-        maidSoundInterval = 20;
+        maidSoundInterval = LittleMaidConfig.voiceSoundInterval;
         if (worldObj.isRemote) {
             // Client
             String s = LittleMaidSoundManager.getSoundValue(enumsound, textureData.getTextureName(0), textureData.getColor());
@@ -1834,7 +1831,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
             // サーバーの方が先に起動しているので強制読み込みの手順が必要
             if (--firstload == 0) {
                 if (worldObj.isRemote) {
-                    Net.sendToEServer(this, new byte[]{Statics.LMN_Server_UpdateSlots, 0, 0, 0, 0});
+                    NetworkHandler.sendToServer(new UpdateLittleMaidSlotPacket(this));
                 } else {
                 }
             }
@@ -2986,14 +2983,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
             setSwinging(pArm, enumsound);
         }
         if (!worldObj.isRemote) {
-            byte[] lba = new byte[]{
-                    Statics.LMN_Client_SwingArm,
-                    0, 0, 0, 0,
-                    (byte) pArm,
-                    0, 0, 0, 0
-            };
-            MMM_Helper.setInt(lba, 6, enumsound.index);
-            Net.sendToAllEClient(this, lba);
+            NetworkHandler.sendPacketToAllTracking(new SwingArmPacket(this, pArm, enumsound), this);
         }
     }
 
@@ -3068,9 +3058,9 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
 
         if (recontract) {
             // 契約期間の延長
-            maidContractLimit += 24000;
-            if (maidContractLimit > 168000) {
-                maidContractLimit = 168000;    // 24000 * 7
+            maidContractLimit += LittleMaidConfig.maidContractLimit;
+            if (maidContractLimit > LittleMaidConfig.maxMaidContractLimit) {
+                maidContractLimit = LittleMaidConfig.maxMaidContractLimit;    // 24000 * 7
             }
         }
 

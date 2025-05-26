@@ -2,6 +2,7 @@ package mmmlibx.lib;
 
 import java.util.Random;
 
+import littleMaidMobX.network.NetworkHandler;
 import mmmlibx.lib.multiModel.model.mc162.ModelBase;
 import mmmlibx.lib.multiModel.model.mc162.ModelBoxBase;
 import mmmlibx.lib.multiModel.model.mc162.ModelRenderer;
@@ -17,7 +18,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import littleMaidMobX.network.Message;
-import littleMaidMobX.network.Network;
 
 import org.lwjgl.opengl.GL11;
 
@@ -185,6 +185,6 @@ public class Client {
 	}
 
 	public static void sendToServer(byte[] ldata) {
-		Network.sendPacketToServer(1, ldata);
+		NetworkHandler.sendPacketToServer(1, ldata);
 	}
 }

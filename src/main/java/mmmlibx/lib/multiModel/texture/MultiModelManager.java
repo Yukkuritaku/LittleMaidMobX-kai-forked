@@ -183,9 +183,9 @@ public class MultiModelManager extends FileLoaderBase {
 
 	protected AbstractModelBase[] getModelBase(Class<? extends AbstractModelBase> pClass) {
 		try {
-			Object lo = pClass.getConstructor().newInstance();
+			AbstractModelBase lo = pClass.getConstructor().newInstance();
 			if (lo instanceof AbstractModelBase) {
-				AbstractModelBase lmodel = (AbstractModelBase)lo;
+				AbstractModelBase lmodel = lo;
 				float[] lsize = lmodel.getArmorModelsSize();
 				AbstractModelBase[] lamb;
 				if (lsize != null && lsize.length > 0) {

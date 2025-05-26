@@ -1,10 +1,9 @@
 package littleMaidMobX.network;
 
-import littleMaidMobX.LittleMaidMobX;
-import mmmlibx.lib.MMMLib;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import mmmlibx.lib.MMMLib;
 
 public class MessageHandler implements IMessageHandler<Message, IMessage> {
 
@@ -12,13 +11,13 @@ public class MessageHandler implements IMessageHandler<Message, IMessage> {
     public IMessage onMessage(Message message, MessageContext ctx) {
         if (message.data != null) {
             if (ctx.side.isClient()) {
-                LittleMaidMobX.proxy.clientCustomPayload(message);
+                //LittleMaidMobX.proxy.clientCustomPayload(message);
             } else {
                 if (message.ch == 1) {
                     MMMLib.serverCustomPayload(ctx.getServerHandler().playerEntity, message);
                 }
                 if (message.ch == 2) {
-                    Net.serverCustomPayload(ctx.getServerHandler().playerEntity, message);
+                    //Net.serverCustomPayload(ctx.getServerHandler().playerEntity, message);
                 }
             }
         }

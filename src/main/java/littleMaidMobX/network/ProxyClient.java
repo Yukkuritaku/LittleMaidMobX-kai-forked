@@ -75,7 +75,7 @@ public class ProxyClient extends ProxyCommon {
 
 	public void clientCustomPayload(Message message) {
 		// クライアント側の特殊パケット受信動作
-		byte mode = message.data[0];
+		/*byte mode = message.data[0];
 		int leid = 0;
 		EntityLittleMaid lemaid = null;
 		if ((mode & 0x80) != 0) {
@@ -111,7 +111,7 @@ public class ProxyClient extends ProxyCommon {
 				LittleMaidMobX.debug(String.format("playSound:%s", lsound9.name()));
 				break;
 
-		}
+		}*/
 	}
 
 	public EntityPlayer getClientPlayer() {

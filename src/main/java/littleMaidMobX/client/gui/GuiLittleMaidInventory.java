@@ -1,16 +1,13 @@
 package littleMaidMobX.client.gui;
 
-import java.util.Collection;
-import java.util.Random;
-
 import littleMaidMobX.LittleMaidMobX;
 import littleMaidMobX.config.LittleMaidConfig;
 import littleMaidMobX.entity.EntityLittleMaid;
 import littleMaidMobX.inventory.ContainerInventory;
 import mmmlibx.lib.Client;
-import mmmlibx.lib.gui.GuiButtonNextPage;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreenBook;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.RenderHelper;
@@ -26,9 +23,11 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import java.util.Collection;
+import java.util.Random;
 
 public class GuiLittleMaidInventory extends GuiContainer {
     // Field
@@ -41,7 +40,7 @@ public class GuiLittleMaidInventory extends GuiContainer {
     private int updateCounter;
     public EntityLittleMaid littleMaid;
 
-    public GuiButtonNextPage[] txbutton = new GuiButtonNextPage[4];
+    public GuiScreenBook.NextPageButton[] txbutton = new GuiScreenBook.NextPageButton[4];
     public GuiButton selectbutton;
     public boolean isChangeTexture;
 
@@ -136,10 +135,10 @@ public class GuiLittleMaidInventory extends GuiContainer {
         if (!littleMaid.getActivePotionEffects().isEmpty()) {
             guiLeft = 160 + (width - xSize - 200) / 2;
         }
-        buttonList.add(txbutton[0] = new GuiButtonNextPage(100, guiLeft + 25, guiTop + 7, false));
-        buttonList.add(txbutton[1] = new GuiButtonNextPage(101, guiLeft + 55, guiTop + 7, true));
-        buttonList.add(txbutton[2] = new GuiButtonNextPage(110, guiLeft + 25, guiTop + 47, false));
-        buttonList.add(txbutton[3] = new GuiButtonNextPage(111, guiLeft + 55, guiTop + 47, true));
+        buttonList.add(txbutton[0] = new GuiScreenBook.NextPageButton(100, guiLeft + 25, guiTop + 7, false));
+        buttonList.add(txbutton[1] = new GuiScreenBook.NextPageButton(101, guiLeft + 55, guiTop + 7, true));
+        buttonList.add(txbutton[2] = new GuiScreenBook.NextPageButton(110, guiLeft + 25, guiTop + 47, false));
+        buttonList.add(txbutton[3] = new GuiScreenBook.NextPageButton(111, guiLeft + 55, guiTop + 47, true));
         buttonList.add(selectbutton = new GuiButton(200, guiLeft + 25, guiTop + 25, 53, 17, "select"));
     }
 

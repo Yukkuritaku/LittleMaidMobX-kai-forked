@@ -1,22 +1,21 @@
 package littleMaidMobX.client.gui;
 
-import littleMaidMobX.entity.modes.IFF;
-import littleMaidMobX.util.Statics;
-import littleMaidMobX.LittleMaidMobX;
 import littleMaidMobX.entity.EntityLittleMaid;
-import littleMaidMobX.network.Net;
+import littleMaidMobX.entity.modes.IFF;
+import littleMaidMobX.network.NetworkHandler;
+import littleMaidMobX.network.packet.server.GetIFFPacket;
+import littleMaidMobX.network.packet.server.SaveIFFPacket;
+import littleMaidMobX.network.packet.server.SetServerIFFPacket;
 import mmmlibx.lib.Client;
-import mmmlibx.lib.MMM_GuiMobSelect;
-import mmmlibx.lib.MMM_Helper;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
-import net.minecraft.util.StringTranslate;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
-public class GuiIFF extends MMM_GuiMobSelect {
+public class GuiIFF extends GuiMobSelect {
 
 	public static final String[] IFFString = {
 		"ENEMY", // 反撃、狩
@@ -36,32 +35,27 @@ public class GuiIFF extends MMM_GuiMobSelect {
 		if (!Client.isIntegratedServerRunning()) {
 			int li = 0;
 			for (String ls : IFF.DefaultIFF.keySet()) {
-				byte ldata[] = new byte[5 + ls.length()];
-				ldata[0] = Statics.LMN_Server_GetIFFValue;
-				MMM_Helper.setInt(ldata, 1, li);
-				MMM_Helper.setStr(ldata, 5, ls);
-				LittleMaidMobX.debug("RequestIFF %s(%d)", ls, li);
-				Net.sendToServer(ldata);
+				NetworkHandler.sendToServer(new GetIFFPacket(li, ls));
 				li++;
 			}
 		}
 	}
 
 	@Override
-	protected boolean checkEntity(String pName, Entity pEntity, int pIndex) {
+	protected boolean checkEntity(String entityName, Entity entity, int index) {
 		boolean lf = false;
 		// Entityの値を設定
-		int liff = IFF.checkEntityStatic(pName, pEntity, pIndex, entityMap);
-		if (pEntity instanceof EntityLivingBase) {
-			if (pEntity instanceof EntityLittleMaid) {
-				if (pIndex == 0 || pIndex == 1) {
+        IFF.checkEntityStatic(entityName, entity, index, this.entityMap);
+        if (entity instanceof EntityLivingBase) {
+			if (entity instanceof EntityLittleMaid) {
+				if (index == 0 || index == 1) {
 					// 野生種、自分契約者
 					lf = true;
 				} else {
 					// 他人の契約者
 				}
-			} else if (pEntity instanceof IEntityOwnable) {
-				if (pIndex == 0 || pIndex == 1) {
+			} else if (entity instanceof IEntityOwnable) {
+				if (index == 0 || index == 1) {
 					// 野生種、自分の
 					lf = true;
 				} else {
@@ -77,10 +71,8 @@ public class GuiIFF extends MMM_GuiMobSelect {
 	public void initGui() {
 		super.initGui();
 		
-		StringTranslate stringtranslate = new StringTranslate();
-		
 		this.buttonList.add(new GuiButton(200, this.width / 2 - 130, this.height - 40, 120, 20,
-				stringtranslate.translateKey("gui.done")));
+				StatCollector.translateToLocal("gui.done")));
 		this.buttonList.add(new GuiButton(201, this.width / 2 + 10, this.height - 40, 120, 20,
 				"Trigger Select"));
 	}
@@ -100,12 +92,13 @@ public class GuiIFF extends MMM_GuiMobSelect {
 
 	@Override
 	public boolean doesGuiPauseGame() {
-		return true;
-	}
+        return super.doesGuiPauseGame();
+    }
 
 	@Override
 	public void onGuiClosed() {
-		Net.saveIFF();
+		NetworkHandler.sendToServer(new SaveIFFPacket());
+		//Net.saveIFF();
 		super.onGuiClosed();
 	}
 
@@ -123,13 +116,7 @@ public class GuiIFF extends MMM_GuiMobSelect {
 				int li = 0;
 				for (String ls : IFF.DefaultIFF.keySet()) {
 					if (ls.contains(pName)) {
-						byte[] ldata = new byte[pName.length() + 6];
-						ldata[0] = Statics.LMN_Server_SetIFFValue;
-						ldata[1] = (byte) tt;
-						MMM_Helper.setInt(ldata, 2, li);
-						MMM_Helper.setStr(ldata, 6, pName);
-						LittleMaidMobX.debug("SendIFF %s(%d) = %d", pName, li, tt);
-						Net.sendToServer(ldata);
+						NetworkHandler.sendToServer(new SetServerIFFPacket(li, tt, pName));
 					}
 					li++;
 				}
