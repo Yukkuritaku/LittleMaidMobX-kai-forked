@@ -6,6 +6,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import cpw.mods.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import littleMaidMobX.client.audio.EnumSound;
+import littleMaidMobX.entity.EntityLittleMaid;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 
@@ -38,9 +39,10 @@ public class PlayLittleMaidSoundPacket implements IMessage {
         public IMessage onMessage(PlayLittleMaidSoundPacket message, MessageContext ctx) {
             if (ctx.side == Side.CLIENT) {
                 Entity entity = Minecraft.getMinecraft().theWorld.getEntityByID(message.entityId);
-                /*if (entity instanceof ISoundPlayable){
-                    ((ISoundPlayable) entity).play(message.soundName);
-                }*/
+                if (entity instanceof EntityLittleMaid){
+                    EnumSound sound = EnumSound.getEnumSound(message.soundName);
+                    ((EntityLittleMaid) entity).playLittleMaidSound(sound, true);
+                }
             }
             return null;
         }

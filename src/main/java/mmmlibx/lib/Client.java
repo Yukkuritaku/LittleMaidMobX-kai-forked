@@ -17,7 +17,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import littleMaidMobX.network.Message;
+import littleMaidMobX.network.packet.old.Message;
 
 import org.lwjgl.opengl.GL11;
 
@@ -114,7 +114,7 @@ public class Client {
 		
 		if (lacount > 0) {
 			EntityArrow larrow = new EntityArrow(par1EntityLiving.worldObj, par1EntityLiving.posX, par1EntityLiving.posY, par1EntityLiving.posZ);
-			Random lrand = new Random((long)par1EntityLiving.getEntityId());
+			Random lrand = new Random(par1EntityLiving.getEntityId());
 			RenderHelper.disableStandardItemLighting();
 			
 			for (int var6 = 0; var6 < lacount; ++var6) {
@@ -165,7 +165,7 @@ public class Client {
 		int ls = pValue & 0xffff;
 		int lt = pValue >>> 16;
 		OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit,
-				(float) ls / 1.0F, (float) lt / 1.0F);
+                (float) ls, (float) lt);
 	}
 
 	public static void setTexture(ResourceLocation pRLocation) {

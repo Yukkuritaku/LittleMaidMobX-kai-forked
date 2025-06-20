@@ -7,7 +7,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.ReflectionHelper;
 import cpw.mods.fml.relauncher.Side;
-import littleMaidMobX.network.Message;
+import littleMaidMobX.network.packet.old.Message;
 import littleMaidMobX.network.NetworkHandler;
 import mmmlibx.lib.guns.GunsBase;
 import mmmlibx.lib.rewrite.RewritedFileManager;
@@ -131,7 +131,7 @@ public class MMMLib {
 		try {
 			Class<?> lc = ReflectionHelper.getClass(MMMLib.class.getClassLoader(), "net.minecraft.entity.EntityLivingBase");
 			Debug("test-getClass: %s", lc.toString());
-		} catch (Exception e) {
+		} catch (Exception ignored) {
 		}
 
 	}

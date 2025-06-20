@@ -1,16 +1,12 @@
 package littleMaidMobX.network;
 
-import static littleMaidMobX.util.Statics.*;
-
 import java.util.List;
 
-import littleMaidMobX.*;
-import littleMaidMobX.client.audio.EnumSound;
 import littleMaidMobX.client.audio.LittleMaidSoundManager;
 import littleMaidMobX.client.renderer.entity.RenderLittleMaid;
 import littleMaidMobX.client.resources.OldZipTexturesLoader;
 import littleMaidMobX.entity.EntityLittleMaid;
-import littleMaidMobX.entity.modes.IFF;
+import littleMaidMobX.network.packet.old.Message;
 import mmmlibx.lib.MMM_EntityDummy;
 import mmmlibx.lib.MMM_EntitySelect;
 import mmmlibx.lib.MMM_Helper;

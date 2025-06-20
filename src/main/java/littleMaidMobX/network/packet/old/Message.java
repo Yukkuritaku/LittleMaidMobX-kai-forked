@@ -1,7 +1,10 @@
-package littleMaidMobX.network;
+package littleMaidMobX.network.packet.old;
 
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
+import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
+import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
+import mmmlibx.lib.MMMLib;
 
 public class Message implements IMessage
 {
@@ -48,5 +51,25 @@ public class Message implements IMessage
 	{
 		buf.writeByte(this.ch);
 		buf.writeBytes(this.data);
+	}
+
+	public static class MessageHandler implements IMessageHandler<Message, IMessage> {
+
+		@Override//IMessageHandlerのメソッド
+		public IMessage onMessage(Message message, MessageContext ctx) {
+			if (message.data != null) {
+				if (ctx.side.isClient()) {
+					//LittleMaidMobX.proxy.clientCustomPayload(message);
+				} else {
+					if (message.ch == 1) {
+						MMMLib.serverCustomPayload(ctx.getServerHandler().playerEntity, message);
+					}
+					if (message.ch == 2) {
+						//Net.serverCustomPayload(ctx.getServerHandler().playerEntity, message);
+					}
+				}
+			}
+			return null;//本来は返答用IMessageインスタンスを返すのだが、旧来のパケットの使い方をするなら必要ない。
+		}
 	}
 }

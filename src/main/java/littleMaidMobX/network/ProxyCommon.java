@@ -1,5 +1,6 @@
 package littleMaidMobX.network;
 
+import littleMaidMobX.network.packet.old.Message;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;

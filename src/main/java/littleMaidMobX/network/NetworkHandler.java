@@ -9,6 +9,7 @@ import littleMaidMobX.entity.EntityLittleMaid;
 import littleMaidMobX.network.packet.client.PlayLittleMaidSoundPacket;
 import littleMaidMobX.network.packet.client.SetClientIFFPacket;
 import littleMaidMobX.network.packet.client.SwingArmPacket;
+import littleMaidMobX.network.packet.old.Message;
 import littleMaidMobX.network.packet.server.*;
 import net.minecraft.entity.EntityTracker;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,8 +24,8 @@ public class NetworkHandler {
 
     public static void init(){
         // mmmlib
-        INSTANCE.registerMessage(MessageHandler.class, Message.class, 0, Side.SERVER);
-        INSTANCE.registerMessage(MessageHandler.class, Message.class, 0, Side.CLIENT);
+        INSTANCE.registerMessage(Message.MessageHandler.class, Message.class, 0, Side.SERVER);
+        INSTANCE.registerMessage(Message.MessageHandler.class, Message.class, 0, Side.CLIENT);
         AtomicInteger discriminator = new AtomicInteger(1);
         // client
         INSTANCE.registerMessage(PlayLittleMaidSoundPacket.Handler.class, PlayLittleMaidSoundPacket.class, discriminator.getAndIncrement(), Side.CLIENT);
