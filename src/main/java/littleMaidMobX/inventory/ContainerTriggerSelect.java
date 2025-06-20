@@ -81,13 +81,10 @@ public class ContainerTriggerSelect extends GuiContainerCreative.ContainerCreati
 
 			return (item1.getUnlocalizedName()).compareTo(item2.getUnlocalizedName());
 		};
-		this.itemList.sort(cmp);
+		//TODO Causes Crash issue (https://github.com/Yukkuritaku/LittleMaidMobX-kai-forked/issues/21)
+		//this.itemList.sort(cmp);
 	}
 
-	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return true;
-	}
 
 	@Override
 	public void scrollTo(float f) {
@@ -217,7 +214,7 @@ public class ContainerTriggerSelect extends GuiContainerCreative.ContainerCreati
 		}
 	}
 
-	public List getItemList() {
+	public List<Item> getItemList() {
 		return weaponSelectList;
 	}
 

@@ -13,6 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
@@ -258,12 +259,12 @@ public class GuiTriggerSelect extends GuiContainer {
 	}
 
 	private void setItemList() {
-		List list1 = inventoryTrigger.getItemList();
-		list1.clear();
+		List<Item> list = inventoryTrigger.getItemList();
+		list.clear();
 		for (int i = 0; i < inventoryTrigger.weaponSelect.size(); i++) {
 			ItemStack is = inventoryTrigger.weaponSelect.get(i);
-			if (is != null && !list1.contains(is.getItem())) {
-				list1.add(is.getItem());
+			if (is != null && !list.contains(is.getItem())) {
+				list.add(is.getItem());
 			}
 		}
 	}
