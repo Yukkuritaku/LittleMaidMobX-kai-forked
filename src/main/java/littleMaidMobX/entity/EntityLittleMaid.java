@@ -84,7 +84,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
      * テクスチャ関連のデータを管理
      **/
     public MMM_TextureData textureData;
-    public Map<String, EquippedStabilizer> maidStabilizer = new HashMap<String, EquippedStabilizer>();
+    public Map<String, EquippedStabilizer> maidStabilizer = new HashMap<>();
 
 
     public InventoryLittleMaid maidInventory;
@@ -249,7 +249,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
     }
 
     @Override
-    public IEntityLivingData onSpawnWithEgg(IEntityLivingData par1EntityLivingData) {
+    public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
         // テクスチャーをランダムで選択
         String ls;
         if (LittleMaidConfig.defaultTexture.isEmpty()) {
@@ -272,9 +272,10 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
 		}
 		*/
         this.setHealth(this.getMaxHealth());
-        return super.onSpawnWithEgg(par1EntityLivingData);
+        return super.onSpawnWithEgg(data);
     }
 
+    @Override
     protected void applyEntityAttributes() {
         // 初期パラメーター
         super.applyEntityAttributes();
@@ -522,24 +523,16 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
         // 既存のAIを削除して置き換える。
         // 動作をクリア
         try {
-            ArrayList<EntityAITaskEntry> taskEntriesDest = getTaskEntries(taskDest);
-            ArrayList<EntityAITaskEntry> executingTaskEntriesDest = getExecutingTaskEntries(taskDest);
-
+            List<EntityAITaskEntry> taskEntriesDest = taskDest.taskEntries;
+            List<EntityAITaskEntry> executingTaskEntriesDest = taskDest.executingTaskEntries;
             if (taskSrc == null) {
                 if (taskEntriesDest != null) taskEntriesDest.clear();
                 if (executingTaskEntriesDest != null) executingTaskEntriesDest.clear();
             } else {
-                ArrayList<EntityAITaskEntry> taskEntriesSrc = getTaskEntries(taskSrc);
-                ArrayList<EntityAITaskEntry> executingTaskEntriesSrc = getExecutingTaskEntries(taskSrc);
-
-                Iterator<EntityAITaskEntry> iterator;
-                iterator = executingTaskEntriesDest.iterator();
-                while (iterator.hasNext()) {
-                    EntityAITaskEntry taskEntry = iterator.next();
-                    taskEntry.action.resetTask();
-                }
+                List<EntityAITaskEntry> taskEntriesSrc = taskSrc.taskEntries;
+                List<EntityAITaskEntry> executingTaskEntriesSrc = taskSrc.executingTaskEntries;
+                executingTaskEntriesDest.forEach(entry -> entry.action.resetTask());
                 executingTaskEntriesDest.clear();
-
                 taskEntriesDest.clear();
                 taskEntriesDest.addAll(taskEntriesSrc);
                 // TODO: 未実装の機能、モードチェンジ時の初期化を行う。
@@ -550,22 +543,6 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
                 }
             }
         } catch (Exception ignored) {}
-    }
-
-    public static ArrayList<EntityAITaskEntry> getTaskEntries(EntityAITasks task) {
-        try {
-            return ObfuscationReflectionHelper.getPrivateValue(EntityAITasks.class, task, "field_75782_a", "taskEntries");
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    public static ArrayList<EntityAITaskEntry> getExecutingTaskEntries(EntityAITasks task) {
-        try {
-            return ObfuscationReflectionHelper.getPrivateValue(EntityAITasks.class, task, "field_75780_b", "executingTaskEntries");
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     /**
@@ -3524,9 +3501,7 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
     }
 
     public void clearTilePosAll() {
-        for (int li = 0; li < maidTiles.length; li++) {
-            maidTiles[li] = null;
-        }
+        Arrays.fill(maidTiles, null);
     }
 
     public double getDistanceTilePos() {

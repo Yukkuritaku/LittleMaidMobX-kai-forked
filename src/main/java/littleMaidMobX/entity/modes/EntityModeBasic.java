@@ -43,7 +43,7 @@ public class EntityModeBasic extends EntityModeBlockBase {
 	 */
 	public EntityModeBasic(EntityLittleMaid pEntity) {
 		super(pEntity);
-		fusedTiles = new ArrayList<IInventory>();
+		fusedTiles = new ArrayList<>();
 //		myTile = null;
 	}
 

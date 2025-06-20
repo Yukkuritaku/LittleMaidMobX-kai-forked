@@ -19,7 +19,7 @@ import littleMaidMobX.entity.EntityLittleMaid;
 import littleMaidMobX.entity.modes.EntityModeManager;
 import littleMaidMobX.entity.modes.IFF;
 import littleMaidMobX.item.ItemDismissalNotice;
-import littleMaidMobX.item.ItemSpawnEgg;
+import littleMaidMobX.item.ItemLittleMaidSpawnEgg;
 import littleMaidMobX.network.NetworkHandler;
 import littleMaidMobX.network.ProxyCommon;
 import mmmlibx.lib.MMM_Helper;
@@ -56,9 +56,9 @@ public class LittleMaidMobX {
     @Instance(MOD_ID)
     private static LittleMaidMobX instance;
 
-    public static ItemSpawnEgg spawnEgg;
+    public static ItemLittleMaidSpawnEgg spawnEgg;
 
-    public static ItemDismissalNotice dismissalNotice;
+    public static Item dismissalNotice;
 
     public static LittleMaidMobX getInstance(){
         return instance;
@@ -81,9 +81,7 @@ public class LittleMaidMobX {
         MMM_TextureManager.instance.init();
         EntityRegistry.registerModEntity(EntityLittleMaid.class, "LittleMaidX", 0, instance, 80, 3, true);
         // アイテム自体は登録しておき、レシピを隠して無効化
-        spawnEgg = new ItemSpawnEgg();
-        spawnEgg.setUnlocalizedName(MOD_ID + ":spawn_lmmx_egg");
-        spawnEgg.setTextureName(MOD_ID + ":spawn_lmmx_egg");
+        spawnEgg = new ItemLittleMaidSpawnEgg();
         GameRegistry.registerItem(spawnEgg, "spawn_lmmx_egg");
         if (LittleMaidConfig.enableSpawnEggRecipe) {
             // 招喚用レシピを追加
@@ -95,36 +93,28 @@ public class LittleMaidMobX {
                     'b', Items.slime_ball,
                     'e', Items.egg);
         }
+
         //解雇通知書を追加
-        dismissalNotice = new ItemDismissalNotice();
-        dismissalNotice.setUnlocalizedName(MOD_ID + ":dismissal_notice_paper");
-        dismissalNotice.setTextureName(MOD_ID + ":dismissal_notice_paper");
+        dismissalNotice = new ItemDismissalNotice().setUnlocalizedName(MOD_ID + ":dismissal_notice_paper").setTextureName(MOD_ID + ":dismissal_notice_paper");
         GameRegistry.registerItem(dismissalNotice, "dismissal_notice_paper");
         GameRegistry.addRecipe(new ItemStack(dismissalNotice, 1), "ppp",
                 "pcp",
                 "ppp",
                 'p', Items.paper,
                 'c', Items.cake);
-
         contract = new Achievement("achievement.contract", "contract", 0, 0, Items.cake, null).initIndependentStat().registerStat();
-        Achievement[] achievements = new Achievement[]{contract};
-        AchievementPage.registerAchievementPage(new AchievementPage("LittleMaidMobX", achievements));
-
+        AchievementPage.registerAchievementPage(new AchievementPage("LittleMaidMobX", contract));
         if (MMM_Helper.isClient) {
             // 名称変換テーブル
             // デフォルトモデルの設定
             proxy.init();
         }
-
         // AIリストの追加
         EntityModeManager.init();
-
         // アイテムスロット更新用のパケット
         NetworkHandler.init();
-
         // TODO ★ サウンドのロードを早くするテスト
         proxy.loadSounds();
-
         ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, new WeightedRandomChestContent(new ItemStack(Items.cake), 1, 1, 10));
         ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, new WeightedRandomChestContent(new ItemStack(spawnEgg), 1, 1, 10));
     }
@@ -144,15 +134,19 @@ public class LittleMaidMobX {
 
         // Dominant
         if (LittleMaidConfig.spawnWeight > 0) {
+            BiomeGenBase[] biomeList = BiomeGenBase.getBiomeGenArray();
             if (LittleMaidConfig.spawnMaidsEverywhere) {
-                BiomeGenBase[] biomeList = BiomeGenBase.getBiomeGenArray();
                 for (BiomeGenBase biome : biomeList) {
-                    EntityRegistry.addSpawn(EntityLittleMaid.class,
-                            LittleMaidConfig.spawnWeight, LittleMaidConfig.minGroupSize, LittleMaidConfig.maxGroupSize, EnumCreatureType.creature, biome);
+                    if (biome != null) {
+                        EntityRegistry.addSpawn(EntityLittleMaid.class,
+                                LittleMaidConfig.spawnWeight, LittleMaidConfig.minGroupSize, LittleMaidConfig.maxGroupSize, EnumCreatureType.creature, biome);
+                        LOGGER.warn("Spawn Biome added: {}", biome.biomeName);
+                    }else {
+                        LOGGER.warn("Biome has null");
+                    }
                 }
             } else {
 
-                BiomeGenBase[] biomeList = BiomeGenBase.getBiomeGenArray();
                 for (BiomeGenBase biome : biomeList) {
                     if (biome != null &&
                             !BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.OCEAN) &&

@@ -63,7 +63,6 @@ public class ContainerInventory extends ContainerPlayer {
 			final int armorIndex = j;
 			this.addSlotToContainer(new Slot(linventory, linventory.getSizeInventory() - 1 - j, 8 + (j / 2) * 72, 8 + (j % 2) * 18)
 			{
-				private static final String __OBFID = "CL_00001755";
 				/**
 				 * Returns the maximum stack size for a given slot (usually the same as getInventoryStackLimit(), but 1
 				 * in the case of armor slots)
@@ -96,7 +95,6 @@ public class ContainerInventory extends ContainerPlayer {
 		final EntityLittleMaid elm = pEntity;
 		this.addSlotToContainer(new Slot(linventory, InventoryLittleMaid.IFF_SLOT, 8 + 72, 8 + 36)
 		{
-			private static final String __OBFID = "CL_00001756";
 			public int getSlotStackLimit()
 			{
 				return 1;
@@ -150,7 +148,7 @@ public class ContainerInventory extends ContainerPlayer {
 					if (!this.mergeItemStack(itemstack1, lline, lline + 36, true)) {
 						return null;
 					}
-				} else if (pIndex >= lline && pIndex < lline + 36) {
+				} else if (pIndex < lline + 36) {
 					if (!this.mergeItemStack(itemstack1, 0, lline, false)) {
 						return null;
 					}

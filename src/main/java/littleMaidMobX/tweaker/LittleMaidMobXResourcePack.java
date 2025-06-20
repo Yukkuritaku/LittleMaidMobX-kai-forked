@@ -39,15 +39,13 @@ public class LittleMaidMobXResourcePack implements IResourcePack {
         }
     }
 
-    private InputStream getResourceStream(ResourceLocation location, boolean b) {
+    private InputStream getResourceStream(ResourceLocation location, boolean existCheck) {
         if(location.getResourceDomain().equalsIgnoreCase(LittleMaidMobX.MOD_ID)) {
             String path = location.getResourcePath();
             InputStream resource = LittleMaidMobXResourcePack.class.getResourceAsStream("/assets/" + LittleMaidMobX.MOD_ID + "/" + path);
-
             if (resource == null) {
                 resource = LittleMaidSoundManager.getResourceStream(location);
             }
-            LOGGER.info("getResource: {} : {} : {}", b, location, resource);
             return resource;
         }
         return null;
@@ -60,11 +58,10 @@ public class LittleMaidMobXResourcePack implements IResourcePack {
         return stream != null;
     }
 
-    public static final Set lmmxResourceDomains = ImmutableSet.of(LittleMaidMobX.MOD_ID);
     @Override
     @SuppressWarnings("rawtypes")
     public Set getResourceDomains() {
-        return lmmxResourceDomains;
+        return ImmutableSet.of(LittleMaidMobX.MOD_ID);
     }
 
     @Override
@@ -76,7 +73,6 @@ public class LittleMaidMobXResourcePack implements IResourcePack {
     // 未使用
     @Override
     public BufferedImage getPackImage() {
-
         try {
             InputStream pack = DefaultResourcePack.class.getResourceAsStream("/" + new ResourceLocation("pack.png").getResourcePath());
             if (pack != null) {

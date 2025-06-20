@@ -112,9 +112,6 @@ public class EntityLittleMaidAvatar extends EntityPlayer implements IEntityLittl
 	}
 
 	@Override
-	public void addStat(StatBase par1StatBase, int par2) {}
-
-	@Override
 	public void addScore(int par1) {}
 
 	@Override
@@ -213,7 +210,7 @@ public class EntityLittleMaidAvatar extends EntityPlayer implements IEntityLittl
 		// アイテムが壊れたので次の装備を選択
 		// TODO:但し、Forge等でプレーヤーイベントを設定しているものだとぬるぽ落ちするので、何らかの対策が必要。
 //		super.destroyCurrentEquippedItem();
-		inventory.setInventorySlotContents(inventory.currentItem, (ItemStack)null);
+		inventory.setInventorySlotContents(inventory.currentItem, null);
 		avatar.getNextEquipItem();
 	}
 
