@@ -13,6 +13,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.MovingObjectPosition.MovingObjectType;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import zabuton.Zabuton;
 import zabuton.entity.EntityZabuton;
 
 public class ItemZabuton extends Item {
@@ -25,10 +26,12 @@ public class ItemZabuton extends Item {
 
 	public ItemZabuton() {
 		super();
+		setUnlocalizedName(Zabuton.MOD_ID + ":zabuton");
+		setTextureName(Zabuton.MOD_ID + ":zabuton");
+		setCreativeTab(CreativeTabs.tabTransport);
 		setMaxStackSize(8);
 		setHasSubtypes(true);
 		setMaxDamage(0);
-		setCreativeTab(CreativeTabs.tabTransport);
 	}
 
 	@Override
