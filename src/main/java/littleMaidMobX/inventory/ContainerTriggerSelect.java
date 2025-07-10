@@ -81,7 +81,7 @@ public class ContainerTriggerSelect extends GuiContainerCreative.ContainerCreati
 
 			return (item1.getUnlocalizedName()).compareTo(item2.getUnlocalizedName());
 		};
-		//TODO Causes Crash issue (https://github.com/Yukkuritaku/LittleMaidMobX-kai-forked/issues/21)
+		//TODO Causes Crash issue (https://github.com/Yukkuritaku/LittleMaidMobX-kai-forked/issues/21), temporary fix
 		//this.itemList.sort(cmp);
 	}
 

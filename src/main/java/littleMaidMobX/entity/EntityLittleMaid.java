@@ -2683,7 +2683,9 @@ public class EntityLittleMaid extends EntityTameable implements ITextureEntity {
 
                         deathTime = 0;
                         if (!worldObj.isRemote) {
-                            dropItem(Items.name_tag, 1);
+                            if (LittleMaidConfig.dropNametagOnTamed) {
+                                dropItem(Items.name_tag, 1);
+                            }
 
                             if (LittleMaidMobX.contract != null) {
                                 par1EntityPlayer.triggerAchievement(LittleMaidMobX.contract);

@@ -31,7 +31,6 @@ public class NetworkHandler {
         INSTANCE.registerMessage(PlayLittleMaidSoundPacket.Handler.class, PlayLittleMaidSoundPacket.class, discriminator.getAndIncrement(), Side.CLIENT);
         INSTANCE.registerMessage(SetClientIFFPacket.Handler.class, SetClientIFFPacket.class, discriminator.getAndIncrement(), Side.CLIENT);
         INSTANCE.registerMessage(SwingArmPacket.Handler.class, SwingArmPacket.class, discriminator.getAndIncrement(), Side.CLIENT);
-
         // server
         INSTANCE.registerMessage(DecreaseDyePacket.Handler.class, DecreaseDyePacket.class, discriminator.getAndIncrement(), Side.SERVER);
         INSTANCE.registerMessage(GetIFFPacket.Handler.class, GetIFFPacket.class, discriminator.getAndIncrement(), Side.SERVER);

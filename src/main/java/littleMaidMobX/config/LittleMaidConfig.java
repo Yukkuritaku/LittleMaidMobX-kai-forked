@@ -34,6 +34,7 @@ public class LittleMaidConfig {
     public static int talkInterval;
     public static int maidContractLimit;
     public static int maxMaidContractLimit;
+    public static boolean dropNametagOnTamed;
 
     public static boolean printDebugMessage;
 //	public static boolean AlphaBlend = true;
@@ -74,6 +75,7 @@ public class LittleMaidConfig {
         talkInterval = configuration.getInt("talkInterval", CATEGORY_MAIDS, 120, 0, 200, "Change LittleMaid living sound times");
         maidContractLimit = configuration.getInt("maidContractLimit", CATEGORY_MAIDS, 24000, 1, Integer.MAX_VALUE, "Change LittleMaid Contract add duration. (24000 is 1 day in Minecraft)");
         maxMaidContractLimit = configuration.getInt("maxMaidContractLimit", CATEGORY_MAIDS, 24000 * 7, 1, Integer.MAX_VALUE, "Change LittleMaid Contract max duration. (24000 is 1 day in Minecraft)");
+        dropNametagOnTamed = configuration.getBoolean("dropNametagOnTamed", CATEGORY_MAIDS, false, "Change Nametag drop on LittleMaid tamed.");
 
         enableSpawnEggRecipe = configuration.getBoolean("enableSpawnEggRecipe", CATEGORY_ITEMS, true, "Enable LittleMaid spawn egg recipe.");
 

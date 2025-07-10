@@ -173,6 +173,7 @@ public class LittleMaidMobX {
                                 BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SANDY) ||
                                 BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.SNOWY) ||
                                 BiomeDictionary.isBiomeOfType(biome, BiomeDictionary.Type.BEACH)) {
+                            LOGGER.warn("Spawn Biome added: {}", biome.biomeName);
                             EntityRegistry.addSpawn(EntityLittleMaid.class,
                                     LittleMaidConfig.spawnWeight, LittleMaidConfig.minGroupSize, LittleMaidConfig.maxGroupSize, EnumCreatureType.creature, biome);
                         }
